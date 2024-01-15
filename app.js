@@ -63,12 +63,31 @@ function gameRestart() {
   playerSequence = [];
   n = null;
   curr = null;
-  levelDisplay.textContent = "You lost! Click anywhere to start the game";
+
+  let start = 5;
+
   gameStatus.textContent = "Game not started";
+  levelDisplay.textContent = `You lost! Game will refresh in ${start} seconds...`;
+
+  let gameRefresh = setInterval(() => {
+    if (start > 0) {
+      start--;
+      levelDisplay.textContent = `You lost! Game will refresh in ${start} seconds...`;
+    }
+  }, 1000);
+
+  setTimeout(() => {
+    clearInterval(gameRefresh);
+    refreshGame();
+    levelDisplay.textContent = "Click anywhere to start the game";
+  }, 5000);
 }
 
 // ===============================================================
 
+function refreshGame() {
+  createStartEL();
+}
 function createStartEL() {
   body.addEventListener("click", gameStart);
 }
