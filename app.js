@@ -11,15 +11,33 @@ let playerTurn = false;
 let lvl = 1;
 let colorSequence = [];
 let playerSequence = [];
+let n = null;
+let curr = null;
 
-body.addEventListener("click", gameStart);
+createStartEL();
 
 function gameStart() {
-  body.removeEventListener("keydown", gameStart);
+  removeStartEL();
   computerMove();
 }
 
+colorHolder.addEventListener("click", (e) => {
+  if (e.target.className === "color" && playerTurn === true && curr < n) {
+    playerSequence.push(e.target.id);
+    if (playerSequence[curr] != colorSequence[curr]) {
+      gameRestart();
+    } else if (curr === n - 1) {
+      lvl++;
+      computerMove();
+    } else {
+      curr++;
+    }
+  }
+});
+
 function computerMove() {
+  playerTurn = false;
+  playerSequence = [];
   gameStatus.textContent = "Computer is moving";
   levelDisplay.textContent = `Level ${lvl}`;
   let color = selectColorDiv(getColor());
@@ -34,22 +52,29 @@ function computerMove() {
 function playerMove() {
   playerTurn = true;
   gameStatus.textContent = "Your turn! Select the colors in order.";
-  let n = colorSequence.length;
-  let curr = 0;
+  n = colorSequence.length;
+  curr = 0;
+}
 
-  colorHolder.addEventListener("click", (e) => {
-    if (e.target.className === "color" && playerTurn === true && curr < n) {
-      playerSequence.push(e.target.id);
-      if (playerSequence[curr] != colorSequence[curr]) {
-        gameEnd();
-      } else {
-        curr++;
-      }
-    }
-  });
+function gameRestart() {
+  playerTurn = false;
+  lvl = 1;
+  colorSequence = [];
+  playerSequence = [];
+  n = null;
+  curr = null;
+  levelDisplay.textContent = "You lost! Click anywhere to start the game";
+  gameStatus.textContent = "Game not started";
 }
 
 // ===============================================================
+
+function createStartEL() {
+  body.addEventListener("click", gameStart);
+}
+function removeStartEL() {
+  body.removeEventListener("click", gameStart);
+}
 
 function getColor() {
   let randNum = randomColorGen();
