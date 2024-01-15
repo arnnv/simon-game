@@ -7,10 +7,6 @@ const colD = document.querySelector("#colD");
 
 body.addEventListener("click", gameStart);
 
-function randomColorGen() {
-  return Math.floor(Math.random() * 4 + 1);
-}
-
 function getColor() {
   let randNum = randomColorGen();
   if (randNum === 1) return "A";
@@ -29,17 +25,6 @@ function gameStart() {
   computerMove();
 }
 
-function selectColorDiv(color) {
-  if (color === "A") return colA;
-  if (color === "B") return colB;
-  if (color === "C") return colC;
-  if (color === "D") return colD;
-}
-
-function unGlowColor(color) {
-  color.style.opacity = null;
-}
-
 function computerMove() {
   levelDisplay.textContent = `Level ${lvl}`;
   let color = selectColorDiv(getColor());
@@ -50,4 +35,18 @@ function computerMove() {
   }, 500);
 }
 
+function unGlowColor(color) {
+  color.style.opacity = null;
+}
+
+function selectColorDiv(color) {
+  if (color === "A") return colA;
+  if (color === "B") return colB;
+  if (color === "C") return colC;
+  if (color === "D") return colD;
+}
+
+function randomColorGen() {
+  return Math.floor(Math.random() * 4 + 1);
+}
 // function playerTurn
