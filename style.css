@@ -1,0 +1,32 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: flex;
+}
+.color {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  margin: 8px;
+  border-radius: 16%;
+  border: 12px solid black;
+  cursor: pointer;
+}
+
+.color:hover {
+  opacity: 0.8;
+}
+
+.active {
+  opacity: 0.7;
+}
