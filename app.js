@@ -1,24 +1,18 @@
 const body = document.querySelector("body");
 const levelDisplay = document.querySelector("#level");
+const gameStatus = document.querySelector("#status");
+const colorHolder = document.querySelector(".container");
 const colA = document.querySelector("#colA");
 const colB = document.querySelector("#colB");
 const colC = document.querySelector("#colC");
 const colD = document.querySelector("#colD");
 
-body.addEventListener("click", gameStart);
-
-function getColor() {
-  let randNum = randomColorGen();
-  if (randNum === 1) return "A";
-  if (randNum === 2) return "B";
-  if (randNum === 3) return "C";
-  if (randNum === 4) return "D";
-}
-
 let playerTurn = false;
 let lvl = 1;
 let colorSequence = [];
 let playerSequence = [];
+
+body.addEventListener("click", gameStart);
 
 function gameStart() {
   body.removeEventListener("keydown", gameStart);
@@ -26,13 +20,43 @@ function gameStart() {
 }
 
 function computerMove() {
+  gameStatus.textContent = "Computer is moving";
   levelDisplay.textContent = `Level ${lvl}`;
   let color = selectColorDiv(getColor());
-  colorSequence.push(color);
+  colorSequence.push(color.id);
   color.style.opacity = "0.7";
   setTimeout(() => {
     unGlowColor(color);
+    playerMove();
   }, 500);
+}
+
+function playerMove() {
+  playerTurn = true;
+  gameStatus.textContent = "Your turn! Select the colors in order.";
+  let n = colorSequence.length;
+  let curr = 0;
+
+  colorHolder.addEventListener("click", (e) => {
+    if (e.target.className === "color" && playerTurn === true && curr < n) {
+      playerSequence.push(e.target.id);
+      if (playerSequence[curr] != colorSequence[curr]) {
+        gameEnd();
+      } else {
+        curr++;
+      }
+    }
+  });
+}
+
+// ===============================================================
+
+function getColor() {
+  let randNum = randomColorGen();
+  if (randNum === 1) return "A";
+  if (randNum === 2) return "B";
+  if (randNum === 3) return "C";
+  if (randNum === 4) return "D";
 }
 
 function unGlowColor(color) {
@@ -49,4 +73,3 @@ function selectColorDiv(color) {
 function randomColorGen() {
   return Math.floor(Math.random() * 4 + 1);
 }
-// function playerTurn
