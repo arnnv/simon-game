@@ -42,11 +42,11 @@ function computerMove() {
   levelDisplay.textContent = `Level ${lvl}`;
   let color = selectColorDiv(getColor());
   colorSequence.push(color.id);
-  color.style.opacity = "0.7";
+  color.style.opacity = "0.5";
   setTimeout(() => {
     unGlowColor(color);
     playerMove();
-  }, 500);
+  }, 600);
 }
 
 function playerMove() {
